@@ -1,0 +1,11 @@
+portaudio: PortAudio (A portable cross-platform Audio API)
+portaudio:
+portaudio: PortAudio is a portable audio I/O library designed for
+portaudio: cross-platform support of audio.  It uses a callback mechanism
+portaudio: to request audio processing.  Audio can be generated in various
+portaudio: formats, including 32 bit floating point, and will be converted
+portaudio: to the native format internally. 
+portaudio:
+portaudio:
+portaudio:
+portaudio: Packaged by Georgi D. Sotirov <gdsotirov@dir.bg>
