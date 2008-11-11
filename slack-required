@@ -1,0 +1,2 @@
+alsa-lib >= 1.0.15
+glibc-solibs >= 2.7
