@@ -1,6 +1,7 @@
-alsa-lib >= 1.0.23
-cxxlibs >= 6.0.13 | gcc-g++ >= 4.4.4
-gcc >= 4.4.4
-glibc-solibs >= 2.11.1
-jack >= 1.9.7
-ncurses >= 5.7
+alsa-lib >= 1.0.24.1
+celt >= 0.11.2
+cxxlibs >= 6.0.14 | gcc-g++ >= 4.5.2
+gcc >= 4.5.2
+glibc-solibs >= 2.13
+jack >= 1.9.8
+ncurses >= 5.9
