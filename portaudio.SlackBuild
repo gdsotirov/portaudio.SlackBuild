@@ -19,14 +19,14 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: portaudio.SlackBuild,v 1.5 2016/08/24 15:48:57 gsotirov Exp $
+# $Id: portaudio.SlackBuild,v 1.6 2016/08/24 16:11:59 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=portaudio
 VERSION=19
-VDATE=20111121
+VDATE=20140130
 BUILD=${BUILD:-1}
 ARCH=${ARCH:-i486}
 
@@ -73,7 +73,7 @@ CXXFLAGS=$SLKCFLAGS \
             --with-oss || exit 4
 
 # Build & install
-make -j4 || exit 5
+make || exit 5
 make DESTDIR=$PKG install || exit 6
 
 # Prepare
