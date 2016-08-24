@@ -19,14 +19,14 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: portaudio.SlackBuild,v 1.3 2016/08/24 15:08:05 gsotirov Exp $
+# $Id: portaudio.SlackBuild,v 1.4 2016/08/24 15:41:40 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=portaudio
 VERSION=19
-VDATE=20071207
+VDATE=20110326
 BUILD=${BUILD:-1}
 ARCH=${ARCH:-i486}
 
@@ -66,6 +66,7 @@ CXXFLAGS=$SLKCFLAGS \
             --libdir=/usr/lib${LIBDIRSUFFIX} \
             --sysconfdir=/etc \
             --mandir=/usr/man \
+            --enable-cxx \
             --enable-shared=yes \
             --enable-static=no \
             --with-alsa \
