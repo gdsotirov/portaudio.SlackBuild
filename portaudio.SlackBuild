@@ -1,11 +1,28 @@
 #!/bin/sh
 #
 # Slackware build script for PortAudio
-# Written by Georgi D. Sotirov <gdsotirov@dir.bg>
+# Copyright (C) 2010-2016 Georgi D. Sotirov <gdsotirov@dir.bg>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
+# $Id: portaudio.SlackBuild,v 1.3 2016/08/24 15:08:05 gsotirov Exp $
+#
 
-. ../slack-package.conf
+. ../../slack-package.conf
 
 NAME=portaudio
 VERSION=19
@@ -35,7 +52,7 @@ mkdir -p $PKG
 
 # Extract the sources
 cd $TMP
-tar -xvf $CWD/pa_stable_v${VERSION}_${VDATE}.tar.gz || exit 1
+tar -xvf $CWD/pa_stable_v${VERSION}_${VDATE}.tar.gz || exit 3
 mv $NAME $NAME-${VERSION}.${VDATE}
 cd $SRC
 fix_source
@@ -46,16 +63,17 @@ CXXFLAGS=$SLKCFLAGS \
 ./configure --build=$ARCH-slackware-linux \
             --host=$ARCH-slackware-linux \
             --prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
             --sysconfdir=/etc \
             --mandir=/usr/man \
             --enable-shared=yes \
             --enable-static=no \
             --with-alsa \
-            --with-oss || exit 2
+            --with-oss || exit 4
 
 # Build & install
-make -j4 || exit 3
-make DESTDIR=$PKG install || exit 4
+make -j4 || exit 5
+make DESTDIR=$PKG install || exit 6
 
 # Prepare
 bin_perms $PKG
