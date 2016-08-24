@@ -19,14 +19,14 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: portaudio.SlackBuild,v 1.4 2016/08/24 15:41:40 gsotirov Exp $
+# $Id: portaudio.SlackBuild,v 1.5 2016/08/24 15:48:57 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=portaudio
 VERSION=19
-VDATE=20110326
+VDATE=20111121
 BUILD=${BUILD:-1}
 ARCH=${ARCH:-i486}
 
