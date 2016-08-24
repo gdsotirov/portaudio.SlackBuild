@@ -5,12 +5,12 @@
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
 
-. /etc/slack-package.conf
+. ../slack-package.conf
 
 NAME=portaudio
 VERSION=19
 VDATE=20071207
-BUILD=1
+BUILD=${BUILD:-1}
 ARCH=${ARCH:-i486}
 
 CWD=${CWD:-`pwd`}
@@ -35,11 +35,12 @@ mkdir -p $PKG
 
 # Extract the sources
 cd $TMP
-tar -zxvf $CWD/pa_stable_v${VERSION}_${VDATE}.tar.gz || exit 1
+tar -xvf $CWD/pa_stable_v${VERSION}_${VDATE}.tar.gz || exit 1
 mv $NAME $NAME-${VERSION}.${VDATE}
 cd $SRC
 fix_source
 
+# Configure
 CFLAGS=$SLKCFLAGS \
 CXXFLAGS=$SLKCFLAGS \
 ./configure --build=$ARCH-slackware-linux \
@@ -52,18 +53,18 @@ CXXFLAGS=$SLKCFLAGS \
             --with-alsa \
             --with-oss || exit 2
 
+# Build & install
 make -j4 || exit 3
 make DESTDIR=$PKG install || exit 4
 
+# Prepare
 bin_perms $PKG
 ( cd $PKG; strip_bin; strip_lib )
 DOCFILES="$DOCFILES COMPILING.DARWIN LICENSE.txt V19-devel-readme.txt"
 ( cd $SRC; create_docs $PKG $NAME-${VERSION}.${VDATE} )
 ( cd $PKG/usr/doc/$NAME-${VERSION}.${VDATE}
-  cp -a LICENSE.txt COPYING
-)
+  cp -a LICENSE.txt COPYING )
 
-# Copy service info
 install -m 755 -d $PKG/install
 install -m 644 $CWD/slack-desc     $PKG/install/slack-desc
 install -m 644 $CWD/slack-required $PKG/install/slack-required
@@ -74,11 +75,12 @@ install -m 644 $CWD/slack-desc         $SBDIR/slack-desc
 install -m 644 $CWD/slack-required     $SBDIR/slack-required
 install -m 644 $CWD/$NAME.SlackBuild   $SBDIR/$NAME.SlackBuild
 
+# Assemble
 PKGNAME=$NAME-${VERSION}.${VDATE}-$ARCH-$BUILD$MYIN
 cd $PKG
-makepkg -l y -c n $PKG_DIR/$PKGNAME.tgz
+makepkg -l y -c n $PKG_DIR/$PKGNAME.txz
 cd $PKG_DIR
-md5sum $PKGNAME.tgz > $PKGNAME.tgz.md5
+md5sum $PKGNAME.txz > $PKGNAME.txz.md5
 cp $CWD/slack-desc $PKGNAME.txt
 
 # Clean up (optionally)
