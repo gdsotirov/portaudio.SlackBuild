@@ -19,14 +19,15 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: portaudio.SlackBuild,v 1.7 2016/08/24 16:19:55 gsotirov Exp $
+# $Id: portaudio.SlackBuild,v 1.8 2016/10/31 07:49:31 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=portaudio
-VERSION=19
-VDATE=20140130
+VERSION=19.6.0
+VER_STR=190600
+VDATE=20161030
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
@@ -37,13 +38,13 @@ if [ ! -e $TMP ]; then
   mkdir -p $TMP # location to build the source
 fi
 
-SRC=$TMP/$NAME-${VERSION}.${VDATE}
+SRC=$TMP/${NAME}-${VER_STR}.${VDATE}
 if [ -e $SRC -a -d $SRC ]; then
   echo "Source directory '$SRC' already exists! Plaese, move it or remove it."
   exit 1
 fi
 
-PKG=$TMP/package-$NAME
+PKG=$TMP/package-${NAME}
 if [ -e $PKG -a -d $PKG ]; then
   echo "Package creation directory '$PKG' already exists! Please, move it or remove it."
   exit 2
@@ -52,16 +53,16 @@ mkdir -p $PKG
 
 # Extract the sources
 cd $TMP
-tar -xvf $CWD/pa_stable_v${VERSION}_${VDATE}.tar.gz || exit 3
-mv $NAME $NAME-${VERSION}.${VDATE}
+tar -xvf $CWD/pa_stable_v${VER_STR}_${VDATE}.tar.gz || exit 3
+mv ${NAME} ${NAME}-${VER_STR}.${VDATE}
 cd $SRC
 fix_source
 
 # Configure
 CFLAGS=$SLKCFLAGS \
 CXXFLAGS=$SLKCFLAGS \
-./configure --build=$ARCH-slackware-linux \
-            --host=$ARCH-slackware-linux \
+./configure --build=${ARCH}-slackware-linux \
+            --host=${ARCH}-slackware-linux \
             --prefix=/usr \
             --libdir=/usr/lib${LIBDIRSUFFIX} \
             --sysconfdir=/etc \
@@ -79,28 +80,30 @@ make DESTDIR=$PKG install || exit 6
 # Prepare
 bin_perms $PKG
 ( cd $PKG; strip_bin; strip_lib )
-DOCFILES="$DOCFILES COMPILING.DARWIN LICENSE.txt V19-devel-readme.txt"
-( cd $SRC; create_docs $PKG $NAME-${VERSION}.${VDATE} )
-( cd $PKG/usr/doc/$NAME-${VERSION}.${VDATE}
-  cp -a LICENSE.txt COPYING )
+DOCFILES="$DOCFILES LICENSE.txt index.html"
+( cd $SRC; create_docs $PKG ${NAME}-${VERSION}.${VDATE} )
+( cd $PKG/usr/doc/${NAME}-${VERSION}.${VDATE};
+  mv LICENSE.txt COPYING;
+  mv README.txt  README;
+  sed -i 's/doc\/html\/index.html/http:\/\/portaudio.com\/docs\/v19-doxydocs\//' index.html )
 
 install -m 755 -d $PKG/install
 install -m 644 $CWD/slack-desc     $PKG/install/slack-desc
 install -m 644 $CWD/slack-required $PKG/install/slack-required
 
-SBDIR=$PKG/usr/src/slackbuilds/$NAME-${VERSION}.${VDATE}
+SBDIR=$PKG/usr/src/slackbuilds/${NAME}-${VERSION}.${VDATE}
 install -m 755 -d $SBDIR
 install -m 644 $CWD/slack-desc         $SBDIR/slack-desc
 install -m 644 $CWD/slack-required     $SBDIR/slack-required
-install -m 644 $CWD/$NAME.SlackBuild   $SBDIR/$NAME.SlackBuild
+install -m 644 $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
 
 # Assemble
-PKGNAME=$NAME-${VERSION}.${VDATE}-$ARCH-$BUILD$MYIN
+PKGNAME=${NAME}-${VERSION}.${VDATE}-${ARCH}-${BUILD}${MYIN}
 cd $PKG
-makepkg -l y -c n $PKG_DIR/$PKGNAME.txz
+makepkg -l y -c n $PKG_DIR/${PKGNAME}.txz
 cd $PKG_DIR
-md5sum $PKGNAME.txz > $PKGNAME.txz.md5
-cp $CWD/slack-desc $PKGNAME.txt
+md5sum ${PKGNAME}.txz > $PKGNAME.txz.md5
+cp $CWD/slack-desc ${PKGNAME}.txt
 
 # Clean up (optionally)
 if [ "$1" = "--cleanup" ]; then
