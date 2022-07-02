@@ -86,14 +86,19 @@ DOCFILES="$DOCFILES LICENSE.txt index.html"
   sed -i 's/doc\/html\/index.html/http:\/\/portaudio.com\/docs\/v19-doxydocs\//' index.html )
 
 install --mode 755 --directory $PKG/install
-install --mode 644 $CWD/slack-desc     $PKG/install/slack-desc
-install --mode 644 $CWD/slack-required $PKG/install/slack-required
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-desc     $PKG/install/slack-desc
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-required $PKG/install/slack-required
 
 SBDIR=$PKG/usr/src/slackbuilds/${NAME}-${VERSION}.${VDATE}
 install --mode 755 --directory $SBDIR
-install --mode 644 $CWD/slack-desc         $SBDIR/slack-desc
-install --mode 644 $CWD/slack-required     $SBDIR/slack-required
-install --mode 644 $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-desc         $SBDIR/slack-desc
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-required     $SBDIR/slack-required
+install --mode 644 --preserve-timestamp \
+        $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
 
 # Assemble
 cd $PKG
