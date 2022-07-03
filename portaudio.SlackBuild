@@ -23,9 +23,9 @@
 . ../../slack-package.conf
 
 NAME=portaudio
-VERSION=19.6.0
-VER_STR=190600
-VDATE=20161030
+VERSION=19.7.0
+VER_STR=190700
+VDATE=20210406
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
@@ -82,8 +82,7 @@ DOCFILES="$DOCFILES LICENSE.txt index.html"
 ( cd $SRC; create_docs $PKG ${NAME}-${VERSION}.${VDATE} )
 ( cd $PKG/usr/doc/${NAME}-${VERSION}.${VDATE};
   mv LICENSE.txt COPYING;
-  mv README.txt  README;
-  sed -i 's/doc\/html\/index.html/http:\/\/portaudio.com\/docs\/v19-doxydocs\//' index.html )
+  mv README.md  README )
 
 install --mode 755 --directory $PKG/install
 install --mode 644 --preserve-timestamp \
